@@ -1,0 +1,74 @@
+<head>
+    <title>Book Reccommender</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+    body {
+    }
+    .header {
+        text-align: center;
+        font-size: 48px;
+        margin: 20px;
+    }
+    .wrapper {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id = "app">
+        <div class="header">
+            <div class="title">Book Reccommender</div>
+        </div>
+
+        <div class="wrapper">
+            <div class="dropdown">
+                <select name="Select a Genre" v-model="genres" @change="setGenre()">
+                    <option value="Realistic Fiction">Realistic Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Dystopia">Dystopia</option>
+                    <option value="Action/Adventure">Action/Adventure</option>
+                    <option value="Historical Fiction">Historical Fiction</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Classic">Classic</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="wrapper">
+                <button type="button" @click="displayResults()">Submit</button>
+        </div>
+
+        <div class="wrapper">
+            <div class="results">
+                <div class="selectedGenre" v-for="selectedGenre in selectedGenres">{{ selectedGenre }}</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        ;
+
+        var selectedGenres = [];
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selectedGenres: selectedGenres,
+            },
+            methods: {
+                setGenre: function(delta) {
+                    
+                },
+
+                displayResults: function(delta) {
+                    
+                },
+            },
+        });
+    </script>
+</body>
