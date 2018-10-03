@@ -1,5 +1,5 @@
 <head>
-    <title>Book Reccommender</title>
+    <title>Book Recommender</title>
     <script src="https://unpkg.com/vue"></script>
     <style>
     body {
@@ -25,15 +25,19 @@
 
         <div class="wrapper">
             <div class="dropdown" v-for="trait in traits">
-                <div class="title">{{ trait.title }}</div>
-                <select @change="setTrait();">
+                <div class="title">Select a {{ trait.title }}:</div>
+                <select v-model="trait.selected">
                     <option v-for="option in trait.options" :value="option">{{ option }}</option>
                 </select>
             </div>
         </div>
 
         <div class="wrapper">
-            <button type="button" @click="displayResults()">Submit</button>
+            <button type="button" @click="displayresults()">Submit</button>
+        </div>
+
+        <div class="wrapper">
+            <div v-for="trait in traits">Selected {{ trait.title }}: {{ trait.selected }}</div>
         </div>
     </div>
 
@@ -43,8 +47,8 @@
         var traits = [
             {
                 title: "Genre",
+                selected: "",
                 options: [
-                    "No Preference",
                     "Realistic Fiction",
                     "Fantasy",
                     "Science Fiction",
@@ -54,25 +58,26 @@
                     "Mystery",
                     "Romance",
                     "Classic",
+                    "No Preference",
                 ],
             },{
                 title: "Topic",
+                selected: "",
                 options: [
-                    "No Preference",
                     "Death",
                     "Love",
                     "Family",
                     "Friendship",
                     "Coming of Age",
-                    "Power",
                     "Change",
+                    "Power",
                     "Rebellion",
-                    "Fate/Chance",
+                    "No Preference",
                 ]
             },{
-                title: "Pages",
+                title: "Page Length",
+                selected: "",
                 options: [
-                    "No Preference",
                     "less than 100",
                     "101-150",
                     "151-200",
@@ -81,13 +86,15 @@
                     "301-350",
                     "351-400",
                     "more than 400",
+                    "No Preference",
                 ],
             },{
-                title: "Series",
+                title: "Series Option",
+                selected: "",
                 options: [
+                    "Part of a Series",
+                    "Not Part of a Series",
                     "No Preference",
-                    "Yes",
-                    "No",
                 ]
             },
         ];
@@ -98,10 +105,6 @@
                 traits: traits,
             },
             methods: {
-                setTrait: function(delta) {
-                    
-                },
-
                 displayResults: function(delta) {
                     
                 },
