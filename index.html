@@ -3,41 +3,71 @@
     <script src="https://unpkg.com/vue"></script>
     <style>
     body {
-    }
-    .header {
+        font-family: Georgia;
+        background-color: #e8e1ef;
         text-align: center;
+    }
+    .title {
+        margin-top: 20px;
+        margin-bottom: 40px;
+        margin-right: 40px;
+        margin-left: 40px;
         font-size: 48px;
+    }
+    .subtitle {
         margin: 20px;
+        font-size: 24px;
+    }
+    .box {
+        margin-bottom: 40px;
+        margin-right: 40px;
+        margin-left: 40px;
+        border: 2px solid black;
+        border-radius: 4px;
     }
     .wrapper {
+        margin: 20px;
         display: flex;
         justify-content: space-around;
-        margin: 20px;
+        flex-wrap: wrap;
+    }
+    .wrapper div {
+        margin: 10px;
+        display: flex;
+    }
+    .button {
+        margin-bottom: 40px;
+        margin-right: 40px;
+        margin-left: 40px;
+        display: flex;
+        justify-content: space-around;
     }
     </style>
 </head>
 
 <body>
     <div id = "app">
-        <div class="header">
-            <div class="title">Book Recommender</div>
-        </div>
-
-        <div class="wrapper">
-            <div class="dropdown" v-for="trait in traits">
-                <div class="title">Select a {{ trait.title }}:</div>
-                <select v-model="trait.selected">
-                    <option v-for="option in trait.options" :value="option">{{ option }}</option>
-                </select>
+        <div class="title">Book Recommender</div>
+        <div class="box">
+            <div class="subtitle">Welcome to the Book Recommender! Please select an option for each of the book traits below, then click submit to see a list of books that match your selections. </div>
+            <div class="wrapper">
+                <div class="dropdown" v-for="trait in traits">
+                    <div class="label">Select a {{ trait.title }}:</div>
+                    <select v-model="trait.selected">
+                        <option v-for="option in trait.options" :value="option">{{ option }}</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div class="wrapper">
+        <div class="button">
             <button type="button" v-on:click="isHidden = false">Submit</button>
         </div>
 
-        <div class="wrapper" v-if="!isHidden">
-            <div v-for="trait in traits">Selected {{ trait.title }}: {{ trait.selected }}</div>
+        <div class="box" v-if="!isHidden">
+            <div class="wrapper">
+                <div v-for="trait in traits">Selected {{ trait.title }}: {{ trait.selected }}</div>
+            </div>
         </div>
     </div>
 
