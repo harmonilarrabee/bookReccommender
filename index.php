@@ -51,7 +51,8 @@
 <body>
     <div id = "app">
         <div class="title">Book Recommender</div>
-        <div class="subtitle">Welcome to the Book Recommender! Please select an option for each of the book traits below, then click submit to see a list of books that match your selections. </div>
+        <div class="subtitle">Welcome to Book Recommender! Please select an option for each of the book traits below, 
+        then click submit to see a list of books that match your selections. </div>
         <div class="box">
             <div class="wrapper">
                 <div class="dropdown" v-for="trait in traits">
@@ -88,19 +89,29 @@
                 }
 
 
-                $sql = "SELECT * FROM book JOIN genre WHERE book.genre1 = genre.id";
+                $sql = "SELECT book.title, book.author, genre1.name AS genre1, genre2.name AS genre2, 
+                topic1.name AS topic1, topic2.name AS topic2, topic3.name AS topic3, topic4.name AS topic4, 
+                topic5.name AS topic5, page_length.name AS page_length, series.name AS series
+                FROM book JOIN genre AS genre1 ON book.genre1 = genre1.id JOIN genre AS genre2 ON book.genre2 = genre2.id
+                JOIN topic AS topic1 ON book.topic1 = topic1.id JOIN topic AS topic2 ON book.topic2 = topic2.id 
+                JOIN topic AS topic3 ON book.topic3 = topic3.id JOIN topic AS topic4 ON book.topic4 = topic4.id 
+                JOIN topic AS topic5 ON book.topic5 = topic5.id JOIN page_length ON book.page_length = page_length.id 
+                JOIN series ON book.series = series.id";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
+                    echo "<table><tr><th>Title</th><th>Author</th><th>Genre One</th><th>Genre Two</th><th>Topic One</th>
+                    <th>Topic Two</th><th>Topic Three</th><th>Topic Four</th><th>Topic Five</th><th>Page Length</th>
+                    <th>Series</th></tr>";
                     while($row = $result->fetch_assoc()) {
-                        echo "<table><tr><th>Title</th><th>Author</th><th>Genre</th></tr>";
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr><td>" . $row["title"]. "</td><td>" . $row["author"]. "</td><td>" . $row["name"]. "</td><tr>";
-                        }
-                        echo "</table>";
+                        echo "<tr><td>" . $row["title"]. "</td><td>" . $row["author"]. "</td><td>" . $row["genre1"]. "</td>
+                        <td>" . $row["genre2"]. "</td><td>" . $row["topic1"]. "</td><td>" . $row["topic2"]. "</td>
+                        <td>" . $row["topic3"]. "</td><td>" . $row["topic4"]. "</td><td>" . $row["topic5"]. "</td>
+                        <td>" . $row["page_length"]. "</td><td>" . $row["series"]. "</td></tr>";
                     }
+                    echo "</table>";
                 } else {
-                    echo "We're sorry, no books in our database match all the traits you selected. ";
+                    echo "We're sorry, no books in our database match all the traits you selected.";
                 }
                 $conn->close();
                 ?>
