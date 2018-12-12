@@ -58,7 +58,7 @@
                 <div class="dropdown" v-for="trait in traits">
                     <div class="label">Select a {{ trait.title }}:</div>
                     <select v-model="trait.selected">
-                        <option v-for="option in trait.options" :value="option">{{ option }}</option>
+                        <option v-for="option in trait.options" :value="option.value">{{ option.text }}</option>
                     </select>
                 </div>
             </div>
@@ -88,7 +88,6 @@
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-
                 $sql = "SELECT book.title, book.author, genre1.name AS genre1, genre2.name AS genre2, 
                 topic1.name AS topic1, topic2.name AS topic2, topic3.name AS topic3, topic4.name AS topic4, 
                 topic5.name AS topic5, page_length.name AS page_length, series.name AS series
@@ -111,7 +110,8 @@
                     }
                     echo "</table>";
                 } else {
-                    echo "We're sorry, no books in our database match all the traits you selected.";
+                    echo "We're sorry, no books in our database match all the traits you selected. Try selecting 
+                    'No Preference' for one or more traits to get more results.";
                 }
                 $conn->close();
                 ?>
@@ -121,63 +121,134 @@
 
     <script>
         ;
-
         var traits = [
             {
                 title: "Genre",
                 selected: "",
                 options: [
-                    "Realistic Fiction",
-                    "Fantasy",
-                    "Science Fiction",
-                    "Dystopia",
-                    "Historical Fiction",
-                    "Mystery",
-                    "Romance",
-                    "Classic",
-                    "No Preference",
-                ],
+                    {
+                        "value": "1",
+                        "text": "Realistic Fiction"
+                    },{
+                        "value": "2",
+                        "text": "Fantasy"
+                    },{
+                        "value": "3",
+                        "text": "Science Fiction"
+                    },{
+                        "value": "4",
+                        "text": "Dystopia"
+                    },{
+                        "value": "5",
+                        "text": "Historical Fiction"
+                    },{
+                        "value": "6",
+                        "text": "Mystery"
+                    },{
+                        "value": "7",
+                        "text": "Romance"
+                    },{
+                        "value": "8",
+                        "text": "Classic"
+                    },{
+                        "value": "0",
+                        "text": "No Preference"
+                    }
+                ]
             },{
                 title: "Topic",
                 selected: "",
                 options: [
-                    "Death",
-                    "Love",
-                    "Family",
-                    "Friendship",
-                    "Coming of Age",
-                    "Change",
-                    "Power",
-                    "Rebellion",
-                    "Adventure",
-                    "Good vs. Evil",
-                    "No Preference",
+                    {
+                        "value": "1",
+                        "text": "Death"
+                    },{
+                        "value": "2",
+                        "text": "Love"
+                    },{
+                        "value": "3",
+                        "text": "Family"
+                    },{
+                        "value": "4",
+                        "text": "Friendship"
+                    },{
+                        "value": "5",
+                        "text": "Coming of Age"
+                    },{
+                        "value": "6",
+                        "text": "Change"
+                    },{
+                        "value": "7",
+                        "text": "Power"
+                    },{
+                        "value": "8",
+                        "text": "Rebellion"
+                    },{
+                        "value": "9",
+                        "text": "Adventure"
+                    },{
+                        "value": "19",
+                        "text": "Good vs. Evil"
+                    },{
+                        "value": "0",
+                        "text": "No Preference"
+                    }
                 ]
             },{
                 title: "Page Length",
                 selected: "",
                 options: [
-                    "Less than 100",
-                    "101-150",
-                    "151-200",
-                    "201-250",
-                    "251-300",
-                    "301-350",
-                    "351-400",
-                    "401-450",
-                    "451-500",
-                    "More than 500",
-                    "No Preference",
-                ],
+                    {
+                        "value": "1",
+                        "text": "Less than 100"
+                    },{
+                        "value": "2",
+                        "text": "101-150"
+                    },{
+                        "value": "3",
+                        "text": "151-200"
+                    },{
+                        "value": "4",
+                        "text": "201-250"
+                    },{
+                        "value": "5",
+                        "text": "251-300"
+                    },{
+                        "value": "6",
+                        "text": "301-350"
+                    },{
+                        "value": "7",
+                        "text": "351-400"
+                    },{
+                        "value": "8",
+                        "text": "401-450"
+                    },{
+                        "value": "9",
+                        "text": "451-500"
+                    },{
+                        "value": "19",
+                        "text": "More than 500"
+                    },{
+                        "value": "0",
+                        "text": "No Preference"
+                    }
+                ]
             },{
                 title: "Series Option",
                 selected: "",
                 options: [
-                    "Part of a Series",
-                    "Not Part of a Series",
-                    "No Preference",
+                    {
+                        "value": "1",
+                        "text": "Part of a Series"
+                    },{
+                        "value": "2",
+                        "text": "Not Part of a Series"
+                    },{
+                        "value": "0",
+                        "text": "No Preference"
+                    }
                 ]
-            },
+            }
         ];
 
         var app = new Vue({
