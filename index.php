@@ -8,24 +8,23 @@
         text-align: center;
     }
     .title {
-        margin-top: 20px;
-        margin-bottom: 40px;
-        margin-right: 40px;
-        margin-left: 40px;
+        margin: 20px;
         font-size: 48px;
     }
     .subtitle {
         margin: 20px;
+        margin-right: 100px;
+        margin-left: 100px;
         font-size: 24px;
     }
     .box {
-        margin-bottom: 40px;
-        margin-right: 40px;
-        margin-left: 40px;
+        margin: 40px;
+        margin-right: 100px;
+        margin-left: 100px;
         border: 2px solid black;
         border-radius: 4px;
     }
-    .wrapper {
+    .wrapper, .button {
         margin: 20px;
         display: flex;
         justify-content: space-around;
@@ -35,15 +34,8 @@
         margin: 10px;
         display: flex;
     }
-    .button {
-        margin-bottom: 40px;
-        margin-right: 40px;
-        margin-left: 40px;
-        display: flex;
-        justify-content: space-around;
-    }
     table, th, td {
-    border: 1px solid black;
+    border: 2px solid black;
     }
     </style>
 </head>
@@ -62,20 +54,13 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="button">
-            <button type="button" v-on:click="isHidden = false">Submit</button>
+            <div class="button">
+                <button type="button" v-on:click="isHidden = false">Submit</button>
+            </div>
         </div>
 
         <div v-if="!isHidden">
-            <div class="subtitle">Selected Traits:</div>
-            <div class="box">
-                <div class="wrapper">
-                    <div v-for="trait in traits">Selected {{ trait.title }}: {{ trait.selected }}</div>
-                </div>
-            </div>
-            <div class="subtitle">Results:</div>
+            <div class="subtitle">Books that match your selections:</div>
             <div class="wrapper">
                 <?php
                 $servername = "localhost";
@@ -95,7 +80,8 @@
                 JOIN topic AS topic1 ON book.topic1 = topic1.id JOIN topic AS topic2 ON book.topic2 = topic2.id 
                 JOIN topic AS topic3 ON book.topic3 = topic3.id JOIN topic AS topic4 ON book.topic4 = topic4.id 
                 JOIN topic AS topic5 ON book.topic5 = topic5.id JOIN page_length ON book.page_length = page_length.id 
-                JOIN series ON book.series = series.id";
+                JOIN series ON book.series = series.id
+                ORDER BY book.title";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -127,9 +113,6 @@
                 selected: "",
                 options: [
                     {
-                        "value": "1",
-                        "text": "Realistic Fiction"
-                    },{
                         "value": "2",
                         "text": "Fantasy"
                     },{
@@ -187,8 +170,11 @@
                         "value": "9",
                         "text": "Adventure"
                     },{
-                        "value": "19",
+                        "value": "10",
                         "text": "Good vs. Evil"
+                    },{
+                        "value": "11",
+                        "text": "Survival"
                     },{
                         "value": "0",
                         "text": "No Preference"
@@ -226,7 +212,7 @@
                         "value": "9",
                         "text": "451-500"
                     },{
-                        "value": "19",
+                        "value": "10",
                         "text": "More than 500"
                     },{
                         "value": "0",
