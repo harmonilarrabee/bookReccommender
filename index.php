@@ -68,6 +68,11 @@
                 $password = "1234";
                 $dbname = "book_database";
 
+                $genre = 2;
+                $topic = 2;
+                $page_length = 6;
+                $series = 1;
+
                 $conn = new mysqli($servername, $username, $password, $dbname);
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
@@ -80,7 +85,10 @@
                 JOIN topic AS topic1 ON book.topic1 = topic1.id JOIN topic AS topic2 ON book.topic2 = topic2.id 
                 JOIN topic AS topic3 ON book.topic3 = topic3.id JOIN topic AS topic4 ON book.topic4 = topic4.id 
                 JOIN topic AS topic5 ON book.topic5 = topic5.id JOIN page_length ON book.page_length = page_length.id 
-                JOIN series ON book.series = series.id
+                JOIN series ON book.series = series.id 
+                WHERE (book.genre1 = $genre OR book.genre2 = $genre) AND (book.topic1 = $topic OR book.topic2 = $topic 
+                OR book.topic3 = $topic OR book.topic4 = $topic OR book.topic5 = $topic) AND book.page_length = $page_length 
+                AND book.series = $series 
                 ORDER BY book.title";
                 $result = $conn->query($sql);
 
