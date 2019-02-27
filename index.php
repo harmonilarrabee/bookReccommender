@@ -11,11 +11,12 @@
         margin: 20px;
         font-size: 48px;
     }
-    .subtitle {
+    .subtitle, subtitle {
         margin: 20px;
         margin-right: 100px;
         margin-left: 100px;
         font-size: 24px;
+        text-align: center;
     }
     .box {
         margin: 40px;
@@ -35,7 +36,15 @@
         display: flex;
     }
     table, th, td {
-    border: 2px solid black;
+        border: 2px solid black;
+        margin: 20px;
+    }
+    message {
+        margin: 20px;
+        margin-right: 100px;
+        margin-left: 100px;
+        font-size: 18px;
+        text-align: center;
     }
     </style>
 </head>
@@ -55,23 +64,22 @@
                 </div>
             </div>
             <div class="button">
-                <button type="button" v-on:click="isHidden = false">Submit</button>
+                <button type="button" @click="updatePHP()">Submit</button>
             </div>
         </div>
 
-        <div v-if="!isHidden">
-            <div class="subtitle">Books that match your selections:</div>
-            <div class="wrapper">
-                <?php
+        <div class="wrapper">
+            <?php
+            if (isset($_GET["w1"]) && isset($_GET["w2"]) && isset($_GET["w3"]) && isset($_GET["w4"])) {
+                $genre = $_GET["w1"];
+                $topic = $_GET["w2"];
+                $page_length = $_GET["w3"];
+                $series = $_GET["w4"];
+
                 $servername = "localhost";
                 $username = "root";
                 $password = "1234";
                 $dbname = "book_database";
-
-                $genre = 2;
-                $topic = 2;
-                $page_length = 6;
-                $series = 1;
 
                 $conn = new mysqli($servername, $username, $password, $dbname);
                 if ($conn->connect_error) {
@@ -93,6 +101,7 @@
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
+                    echo "<subtitle>Books that match your selections:<subtitle>";
                     echo "<table><tr><th>Title</th><th>Author</th><th>Genre One</th><th>Genre Two</th><th>Topic One</th>
                     <th>Topic Two</th><th>Topic Three</th><th>Topic Four</th><th>Topic Five</th><th>Page Length</th>
                     <th>Series</th></tr>";
@@ -104,11 +113,12 @@
                     }
                     echo "</table>";
                 } else {
-                    echo "We're sorry, no books in our database match all the traits you selected. Try selecting 
-                    'No Preference' for one or more traits to get more results.";
+                    echo "<message>We're sorry, no books in our database match all the traits you selected. Try selecting 
+                    'No Preference' for one or more traits to get more results.<message>";
                 }
                 $conn->close();
-                ?>
+            }
+            ?>
             </div>
         </div>
     </div>
@@ -249,10 +259,15 @@
             el: '#app',
             data: {
                 traits: traits,
-                isHidden: true,
             },
             methods: {
-                
+                updatePHP: function() {
+                    var genre = 2;
+                    var topic = 2;
+                    var page_length = 6;
+                    var series = 1;
+                    window.location.href = "index.php?w1=" + genre + "&w2=" + topic + "&w3=" + page_length + "&w4=" + series;
+                },
             },
         });
     </script>
