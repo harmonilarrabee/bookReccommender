@@ -56,10 +56,28 @@
         then click submit to see a list of books that match your selections. </div>
         <div class="box">
             <div class="wrapper">
-                <div class="dropdown" v-for="trait in traits">
-                    <div class="label">Select a {{ trait.title }}:</div>
-                    <select v-model="trait.selected">
-                        <option v-for="option in trait.options" :value="option.value">{{ option.text }}</option>
+                <div class="dropdown">
+                    <div class="label">Select a Genre:</div>
+                    <select v-model="selectedGenre">
+                        <option v-for="genre in genres" :value="genre.value">{{ genre.text }}</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <div class="label">Select a Topic:</div>
+                    <select v-model="selectedTopic">
+                        <option v-for="topic in topics" :value="topic.value">{{ topic.text }}</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <div class="label">Select a Page Length:</div>
+                    <select v-model="selectedPageLength">
+                        <option v-for="page_length in page_lengths" :value="page_length.value">{{ page_length.text }}</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <div class="label">Select a Series Option:</div>
+                    <select v-model="selectedSeries">
+                        <option v-for="series in serieses" :value="series.value">{{ series.text }}</option>
                     </select>
                 </div>
             </div>
@@ -68,7 +86,7 @@
             </div>
         </div>
 
-        <div class="wrapper">
+<div class="wrapper">
             <?php
             if (isset($_GET["w1"]) && isset($_GET["w2"]) && isset($_GET["w3"]) && isset($_GET["w4"])) {
                 $genre = $_GET["w1"];
@@ -88,8 +106,8 @@
 
                 $sql = "SELECT book.title, book.author, genre1.name AS genre1, genre2.name AS genre2, 
                 topic1.name AS topic1, topic2.name AS topic2, topic3.name AS topic3, topic4.name AS topic4, 
-                topic5.name AS topic5, page_length.name AS page_length, series.name AS series
-                FROM book JOIN genre AS genre1 ON book.genre1 = genre1.id JOIN genre AS genre2 ON book.genre2 = genre2.id
+                topic5.name AS topic5, page_length.name AS page_length, series.name AS series 
+                FROM book JOIN genre AS genre1 ON book.genre1 = genre1.id JOIN genre AS genre2 ON book.genre2 = genre2.id 
                 JOIN topic AS topic1 ON book.topic1 = topic1.id JOIN topic AS topic2 ON book.topic2 = topic2.id 
                 JOIN topic AS topic3 ON book.topic3 = topic3.id JOIN topic AS topic4 ON book.topic4 = topic4.id 
                 JOIN topic AS topic5 ON book.topic5 = topic5.id JOIN page_length ON book.page_length = page_length.id 
@@ -101,7 +119,7 @@
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
-                    echo "<subtitle>Books that match your selections:<subtitle>";
+                    echo "<subtitle>Books that match your selections:</subtitle>";
                     echo "<table><tr><th>Title</th><th>Author</th><th>Genre One</th><th>Genre Two</th><th>Topic One</th>
                     <th>Topic Two</th><th>Topic Three</th><th>Topic Four</th><th>Topic Five</th><th>Page Length</th>
                     <th>Series</th></tr>";
@@ -114,7 +132,7 @@
                     echo "</table>";
                 } else {
                     echo "<message>We're sorry, no books in our database match all the traits you selected. Try selecting 
-                    'No Preference' for one or more traits to get more results.<message>";
+                    'No Preference' for one or more traits to get more results.</message>";
                 }
                 $conn->close();
             }
@@ -125,11 +143,7 @@
 
     <script>
         ;
-        var traits = [
-            {
-                title: "Genre",
-                selected: "",
-                options: [
+        var genres = [
                     {
                         "value": "2",
                         "text": "Fantasy"
@@ -155,11 +169,9 @@
                         "value": "0",
                         "text": "No Preference"
                     }
-                ]
-            },{
-                title: "Topic",
-                selected: "",
-                options: [
+        ];
+
+        var topics = [
                     {
                         "value": "1",
                         "text": "Death"
@@ -197,11 +209,9 @@
                         "value": "0",
                         "text": "No Preference"
                     }
-                ]
-            },{
-                title: "Page Length",
-                selected: "",
-                options: [
+        ];
+
+        var page_lengths = [
                     {
                         "value": "1",
                         "text": "Less than 100"
@@ -236,11 +246,9 @@
                         "value": "0",
                         "text": "No Preference"
                     }
-                ]
-            },{
-                title: "Series Option",
-                selected: "",
-                options: [
+        ];
+
+        var serieses = [
                     {
                         "value": "1",
                         "text": "Part of a Series"
@@ -251,22 +259,34 @@
                         "value": "0",
                         "text": "No Preference"
                     }
-                ]
-            }
         ];
+
+        var selectedGenre = "";
+        var selectedTopic = "";
+        var selectedPageLength = "";
+        var selectedSeries = "";
 
         var app = new Vue({
             el: '#app',
             data: {
-                traits: traits,
+                genres: genres,
+                topics: topics,
+                page_lengths: page_lengths,
+                serieses: serieses,
+                selectedGenre: selectedGenre,
+                selectedTopic: selectedTopic,
+                selectedPageLength: selectedPageLength,
+                selectedSeries: selectedSeries,
             },
             methods: {
                 updatePHP: function() {
-                    var genre = 2;
-                    var topic = 2;
-                    var page_length = 6;
-                    var series = 1;
-                    window.location.href = "index.php?w1=" + genre + "&w2=" + topic + "&w3=" + page_length + "&w4=" + series;
+                        var genre = this.selectedGenre;
+                        var topic = this.selectedTopic;
+                        var page_length = this.selectedPageLength;
+                        var series = this.selectedSeries;
+                    if (genre != "" && topic != "" && page_length != "" && series != "") {
+                        window.location.href = "index.php?w1=" + genre + "&w2=" + topic + "&w3=" + page_length + "&w4=" + series;
+                    };
                 },
             },
         });
